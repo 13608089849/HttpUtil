@@ -5,5 +5,7 @@ package com.example.agentzengyu.applicationforhttputil;
  */
 
 public interface CallBack {
-    void Response(String string);
+    void onSuccess(String string);
+
+    void onFailure(String string, Exception e);
 }

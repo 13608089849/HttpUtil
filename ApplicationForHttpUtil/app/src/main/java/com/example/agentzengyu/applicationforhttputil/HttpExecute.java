@@ -48,6 +48,7 @@ public class HttpExecute {
             if (responseCode != 200) {
                 Log.e("Error", responseCode + "");
             } else {
+                callBack.onFailure("Response Code: " + responseCode, null);
                 Log.e("Post Success", "");
             }
             bufferedReader = new BufferedReader(new InputStreamReader(
@@ -56,7 +57,9 @@ public class HttpExecute {
             while ((responseString = bufferedReader.readLine()) != null) {
                 responseResult.append("/n").append(responseString);
             }
+            callBack.onSuccess(responseString);
         } catch (IOException e) {
+            callBack.onFailure("", e);
             e.printStackTrace();
         } finally {
             httpUrlConnection.disconnect();
@@ -69,8 +72,8 @@ public class HttpExecute {
                 bufferedReader.close();
             }
         } catch (IOException ex) {
+            callBack.onFailure("", ex);
             ex.printStackTrace();
         }
-        callBack.Response(responseString);
     }
 }

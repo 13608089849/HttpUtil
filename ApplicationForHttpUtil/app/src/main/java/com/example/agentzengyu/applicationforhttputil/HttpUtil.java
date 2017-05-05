@@ -1,5 +1,7 @@
 package com.example.agentzengyu.applicationforhttputil;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,7 +13,7 @@ import java.util.Map;
  * Created by ZengYu on 2017/5/3.
  */
 
-public class HttpUtil{
+public class HttpUtil {
     private HttpExecute httpExecute = new HttpExecute();
     private String urlString = "";
     private int CONNECT_TIME_OUT = 10000;
@@ -40,33 +42,38 @@ public class HttpUtil{
     }
 
     public void execute(final CallBack callBack) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(urlString);
-                        URLConnection urlConnection = url.openConnection();
-                        httpUrlConnection = (HttpURLConnection) urlConnection;
-                        httpUrlConnection.setRequestMethod("POST");
-                        httpUrlConnection.setConnectTimeout(CONNECT_TIME_OUT);
-                        httpUrlConnection.setReadTimeout(READ_TIME_OUT);
-                        //是否向httpUrlConnection输出
-                        httpUrlConnection.setDoOutput(true);
-                        //是否从httpUrlConnection读入
-                        httpUrlConnection.setDoInput(true);
-                        //是否使用缓存
-                        httpUrlConnection.setUseCaches(false);
-                        httpUrlConnection.setRequestProperty("accept", "*/*");
-                        httpUrlConnection.setRequestProperty("connection", "Keep-Alive");
-                        //设定传送的内容类型是可序列化的java对象
-                        httpUrlConnection.setRequestProperty("Content-type", "application/x-java-serialized-object");
-                        httpUrlConnection.setRequestProperty("Charset", "UTF-8");
-
-                        httpExecute.getResponse(callBack,httpUrlConnection,requestParamsMap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (urlString.equals("")) {
+                        Log.e("Error", "Url is empty!");
+                        return;
                     }
+                    URL url = new URL(urlString);
+                    URLConnection urlConnection = url.openConnection();
+                    httpUrlConnection = (HttpURLConnection) urlConnection;
+                    httpUrlConnection.setRequestMethod("POST");
+                    httpUrlConnection.setConnectTimeout(CONNECT_TIME_OUT);
+                    httpUrlConnection.setReadTimeout(READ_TIME_OUT);
+                    //是否向httpUrlConnection输出
+                    httpUrlConnection.setDoOutput(true);
+                    //是否从httpUrlConnection读入
+                    httpUrlConnection.setDoInput(true);
+                    //是否使用缓存
+                    httpUrlConnection.setUseCaches(false);
+                    httpUrlConnection.setRequestProperty("accept", "*/*");
+                    httpUrlConnection.setRequestProperty("connection", "Keep-Alive");
+                    //设定传送的内容类型是可序列化的java对象
+                    httpUrlConnection.setRequestProperty("Content-type", "application/x-java-serialized-object");
+                    httpUrlConnection.setRequestProperty("Charset", "UTF-8");
+
+                    httpExecute.getResponse(callBack, httpUrlConnection, requestParamsMap);
+                } catch (IOException e) {
+                    Log.e("IOException in execute", e.getMessage());
+                    e.printStackTrace();
                 }
-            }).start();
+            }
+        }).start();
     }
 }
