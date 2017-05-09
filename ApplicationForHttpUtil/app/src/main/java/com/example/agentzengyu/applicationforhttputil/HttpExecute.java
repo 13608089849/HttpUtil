@@ -20,60 +20,66 @@ public class HttpExecute {
     StringBuffer responseResult = new StringBuffer();
     PrintWriter printWriter = null;
     BufferedReader bufferedReader = null;
-    String responseString = "";
 
-    public void getResponse(CallBack callBack, HttpURLConnection httpUrlConnection, Map<String, Object> requestParamsMap) {
-        try {
-            httpUrlConnection.connect();
-            OutputStream outputStream = httpUrlConnection.getOutputStream();
-            printWriter = new PrintWriter(outputStream);
-            // 组织请求参数
-            Iterator it = requestParamsMap.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry element = (Map.Entry) it.next();
-                params.append(element.getKey());
-                params.append("=");
-                params.append(element.getValue());
-                params.append("&");
-            }
-            if (params.length() > 0) {
-                params.deleteCharAt(params.length() - 1);
-            }
-            // 发送请求参数
-            printWriter.write(params.toString());
-            // flush输出流的缓冲
-            printWriter.flush();
-            // 根据ResponseCode判断连接是否成功
-            int responseCode = httpUrlConnection.getResponseCode();
-            if (responseCode != 200) {
-                Log.e("Error", responseCode + "");
-                callBack.onFailure("Response Code: " + responseCode, null);
-            } else {
-                Log.e("Post Success", "");
-                bufferedReader = new BufferedReader(new InputStreamReader(
-                        httpUrlConnection.getInputStream()));
-
-                while ((responseString = bufferedReader.readLine()) != null) {
-                    responseResult.append("/n").append(responseString);
+    public void getResponse(final CallBack callBack, final HttpURLConnection httpUrlConnection, final Map<String, Object> requestParamsMap) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpUrlConnection.connect();
+                    OutputStream outputStream = httpUrlConnection.getOutputStream();
+                    printWriter = new PrintWriter(outputStream);
+                    // 组织请求参数
+                    Iterator it = requestParamsMap.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry element = (Map.Entry) it.next();
+                        params.append(element.getKey());
+                        params.append("=");
+                        params.append(element.getValue());
+                        params.append("&");
+                    }
+                    if (params.length() > 0) {
+                        params.deleteCharAt(params.length() - 1);
+                    }
+                    // 发送请求参数
+                    printWriter.write(params.toString());
+                    // flush输出流的缓冲
+                    printWriter.flush();
+                    // 根据ResponseCode判断连接是否成功
+                    int responseCode = httpUrlConnection.getResponseCode();
+                    Log.e("responseCode",responseCode+"");
+                    if (responseCode != 200) {
+                        Log.e("Error", responseCode + "");
+                        callBack.onFailure("responseCode:"+responseCode, null);
+                    } else {
+                        bufferedReader = new BufferedReader(new InputStreamReader(
+                                httpUrlConnection.getInputStream(),"utf-8"));
+                        String temp;
+                        while ((temp = bufferedReader.readLine()) != null) {
+                            responseResult.append(temp).append("\r\n");
+                        }
+                        Log.e("Post Success", "onSuccess");
+                        callBack.onSuccess(responseResult.toString().trim());
+                    }
+                } catch (IOException e) {
+                    callBack.onFailure("", e);
+                    e.printStackTrace();
+                } finally {
+                    httpUrlConnection.disconnect();
                 }
-                callBack.onSuccess(responseString);
+                try {
+                    if (printWriter != null) {
+                        printWriter.close();
+                    }
+                    if (bufferedReader != null) {
+                        bufferedReader.close();
+                    }
+                } catch (IOException ex) {
+                    callBack.onFailure("", ex);
+                    ex.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            callBack.onFailure("", e);
-            e.printStackTrace();
-        } finally {
-            httpUrlConnection.disconnect();
-        }
-        try {
-            if (printWriter != null) {
-                printWriter.close();
-            }
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
-        } catch (IOException ex) {
-            callBack.onFailure("", ex);
-            ex.printStackTrace();
-        }
+        }).start();
     }
 }
+
