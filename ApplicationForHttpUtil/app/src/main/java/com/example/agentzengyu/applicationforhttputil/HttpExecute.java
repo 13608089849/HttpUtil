@@ -47,17 +47,17 @@ public class HttpExecute {
             int responseCode = httpUrlConnection.getResponseCode();
             if (responseCode != 200) {
                 Log.e("Error", responseCode + "");
-            } else {
                 callBack.onFailure("Response Code: " + responseCode, null);
+            } else {
                 Log.e("Post Success", "");
-            }
-            bufferedReader = new BufferedReader(new InputStreamReader(
-                    httpUrlConnection.getInputStream()));
+                bufferedReader = new BufferedReader(new InputStreamReader(
+                        httpUrlConnection.getInputStream()));
 
-            while ((responseString = bufferedReader.readLine()) != null) {
-                responseResult.append("/n").append(responseString);
+                while ((responseString = bufferedReader.readLine()) != null) {
+                    responseResult.append("/n").append(responseString);
+                }
+                callBack.onSuccess(responseString);
             }
-            callBack.onSuccess(responseString);
         } catch (IOException e) {
             callBack.onFailure("", e);
             e.printStackTrace();
