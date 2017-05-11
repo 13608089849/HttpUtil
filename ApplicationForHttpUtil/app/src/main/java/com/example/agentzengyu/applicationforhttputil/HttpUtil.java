@@ -50,20 +50,20 @@ public class HttpUtil {
             URL url = new URL(urlString);
             URLConnection urlConnection = url.openConnection();
             httpUrlConnection = (HttpURLConnection) urlConnection;
-            httpUrlConnection.setRequestMethod("POST");
-            httpUrlConnection.setConnectTimeout(CONNECT_TIME_OUT);
-            httpUrlConnection.setReadTimeout(READ_TIME_OUT);
             //是否向httpUrlConnection输出
             httpUrlConnection.setDoOutput(true);
             //是否从httpUrlConnection读入
             httpUrlConnection.setDoInput(true);
+            httpUrlConnection.setConnectTimeout(CONNECT_TIME_OUT);
+            httpUrlConnection.setReadTimeout(READ_TIME_OUT);
+            httpUrlConnection.setRequestMethod("POST");
             //是否使用缓存
             httpUrlConnection.setUseCaches(false);
             httpUrlConnection.setRequestProperty("accept", "*/*");
             httpUrlConnection.setRequestProperty("connection", "Keep-Alive");
             //设定传送的内容类型是可序列化的java对象
-            httpUrlConnection.setRequestProperty("Content-type", "application/x-java-serialized-object");
-            httpUrlConnection.setRequestProperty("Charset", "UTF-8");
+            httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+            httpUrlConnection.setRequestProperty("Accept-Charset", "UTF-8");
             httpExecute.getResponse(callBack, httpUrlConnection, requestParamsMap);
         } catch (IOException e) {
             Log.e("IOException in execute", e.getMessage());

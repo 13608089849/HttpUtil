@@ -26,6 +26,7 @@ public class HttpExecute {
             @Override
             public void run() {
                 try {
+                    Log.e("response"," "+httpUrlConnection.getResponseMessage());
                     httpUrlConnection.connect();
                     OutputStream outputStream = httpUrlConnection.getOutputStream();
                     printWriter = new PrintWriter(outputStream);
@@ -47,7 +48,6 @@ public class HttpExecute {
                     printWriter.flush();
                     // 根据ResponseCode判断连接是否成功
                     int responseCode = httpUrlConnection.getResponseCode();
-                    Log.e("responseCode",responseCode+"");
                     if (responseCode != 200) {
                         Log.e("Error", responseCode + "");
                         callBack.onFailure("responseCode:"+responseCode, null);
@@ -82,4 +82,3 @@ public class HttpExecute {
         }).start();
     }
 }
-
