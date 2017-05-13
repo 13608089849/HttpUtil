@@ -26,7 +26,6 @@ public class HttpExecute {
             @Override
             public void run() {
                 try {
-                    Log.e("response"," "+httpUrlConnection.getResponseMessage());
                     httpUrlConnection.connect();
                     OutputStream outputStream = httpUrlConnection.getOutputStream();
                     printWriter = new PrintWriter(outputStream);
@@ -58,7 +57,6 @@ public class HttpExecute {
                         while ((temp = bufferedReader.readLine()) != null) {
                             responseResult.append(temp).append("\r\n");
                         }
-                        Log.e("Post Success", "onSuccess");
                         callBack.onSuccess(responseResult.toString().trim());
                     }
                 } catch (IOException e) {
