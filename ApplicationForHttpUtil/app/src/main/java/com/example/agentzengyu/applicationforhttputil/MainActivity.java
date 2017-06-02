@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.zy.CallBack;
+import com.example.zy.HttpUtil;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -27,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(String string, Exception e) {
                         Log.e("String", string);
-                        Log.e("Exception", e.getMessage());
+                        if (e!=null){
+                            e.printStackTrace();
+                        }
                     }
                 });
     }

@@ -1,6 +1,4 @@
-package com.example.agentzengyu.applicationforhttputil;
-
-import android.util.Log;
+package com.example.zy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,12 +13,22 @@ import java.util.Map;
  * Created by ZengYu on 2017/5/3.
  */
 
+/**
+ * HTTP请求执行类
+ */
 public class HttpExecute {
     StringBuffer params = new StringBuffer();
     StringBuffer responseResult = new StringBuffer();
     PrintWriter printWriter = null;
     BufferedReader bufferedReader = null;
 
+    /**
+     * 获取HTTP响应
+     *
+     * @param callBack          回调
+     * @param httpUrlConnection HTTP连接
+     * @param requestParamsMap  请求参数MAP
+     */
     public void getResponse(final CallBack callBack, final HttpURLConnection httpUrlConnection, final Map<String, Object> requestParamsMap) {
         new Thread(new Runnable() {
             @Override
@@ -48,11 +56,10 @@ public class HttpExecute {
                     // 根据ResponseCode判断连接是否成功
                     int responseCode = httpUrlConnection.getResponseCode();
                     if (responseCode != 200) {
-                        Log.e("Error", responseCode + "");
-                        callBack.onFailure("responseCode:"+responseCode, null);
+                        callBack.onFailure("ResponseCode:" + responseCode, null);
                     } else {
                         bufferedReader = new BufferedReader(new InputStreamReader(
-                                httpUrlConnection.getInputStream(),"utf-8"));
+                                httpUrlConnection.getInputStream(), "utf-8"));
                         String temp;
                         while ((temp = bufferedReader.readLine()) != null) {
                             responseResult.append(temp).append("\r\n");
@@ -61,7 +68,6 @@ public class HttpExecute {
                     }
                 } catch (IOException e) {
                     callBack.onFailure("", e);
-                    e.printStackTrace();
                 } finally {
                     httpUrlConnection.disconnect();
                 }
@@ -74,7 +80,6 @@ public class HttpExecute {
                     }
                 } catch (IOException ex) {
                     callBack.onFailure("", ex);
-                    ex.printStackTrace();
                 }
             }
         }).start();
