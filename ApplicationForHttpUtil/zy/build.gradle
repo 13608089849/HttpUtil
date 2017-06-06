@@ -31,7 +31,7 @@ dependencies {
 }
 
 def SDK_BASENAME = "HttpUtil";
-def SDK_VERSION = "_V1.5";
+def SDK_VERSION = "_V1.6";
 def sdkDestinationPath = "build";
 def zipFile = file('build/intermediates/bundles/default/classes.jar')
 

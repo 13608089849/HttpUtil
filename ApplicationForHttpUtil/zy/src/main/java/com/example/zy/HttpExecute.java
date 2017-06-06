@@ -1,5 +1,8 @@
 package com.example.zy;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,10 +20,11 @@ import java.util.Map;
  * HTTP请求执行类
  */
 public class HttpExecute {
-    StringBuffer params = new StringBuffer();
-    StringBuffer responseResult = new StringBuffer();
-    PrintWriter printWriter = null;
-    BufferedReader bufferedReader = null;
+    private StringBuffer params = new StringBuffer();
+    private StringBuffer responseResult = new StringBuffer();
+    private PrintWriter printWriter = null;
+    private BufferedReader bufferedReader = null;
+    private JSONObject jsonObject = new JSONObject();
 
     /**
      * 获取HTTP响应
@@ -45,10 +49,12 @@ public class HttpExecute {
                         params.append("=");
                         params.append(element.getValue());
                         params.append("&");
+                        jsonObject.put(element.getKey() + "", element.getValue() + "");
                     }
                     if (params.length() > 0) {
                         params.deleteCharAt(params.length() - 1);
                     }
+                    callBack.onBefore(httpUrlConnection.getURL().toString(),jsonObject);
                     // 发送请求参数
                     printWriter.write(params.toString());
                     // flush输出流的缓冲
@@ -68,6 +74,8 @@ public class HttpExecute {
                     }
                 } catch (IOException e) {
                     callBack.onFailure("", e);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 } finally {
                     httpUrlConnection.disconnect();
                 }
