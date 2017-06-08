@@ -38,9 +38,6 @@ public class HttpExecute {
             @Override
             public void run() {
                 try {
-                    httpUrlConnection.connect();
-                    OutputStream outputStream = httpUrlConnection.getOutputStream();
-                    printWriter = new PrintWriter(outputStream);
                     // 组织请求参数
                     Iterator it = requestParamsMap.entrySet().iterator();
                     while (it.hasNext()) {
@@ -55,11 +52,12 @@ public class HttpExecute {
                         params.deleteCharAt(params.length() - 1);
                     }
                     callBack.onBefore(httpUrlConnection.getURL().toString(),jsonObject);
+                    httpUrlConnection.connect();
+                    OutputStream outputStream = httpUrlConnection.getOutputStream();
+                    printWriter = new PrintWriter(outputStream);
                     // 发送请求参数
                     printWriter.write(params.toString());
-                    // flush输出流的缓冲
                     printWriter.flush();
-                    // 根据ResponseCode判断连接是否成功
                     int responseCode = httpUrlConnection.getResponseCode();
                     if (responseCode != 200) {
                         callBack.onFailure("ResponseCode:" + responseCode, null);
@@ -75,7 +73,7 @@ public class HttpExecute {
                 } catch (IOException e) {
                     callBack.onFailure("", e);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    callBack.onFailure("", e);
                 } finally {
                     httpUrlConnection.disconnect();
                 }
