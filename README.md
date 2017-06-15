@@ -4,7 +4,7 @@
 
 An util to create http connection by POST
 
-Copying this jar file to your lib directory of project, and adding dependency in gradle file.
+Copying this jar file to your lib directory of project, and adding dependency.
 
 ----
 
