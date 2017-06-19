@@ -2,10 +2,11 @@ package com.example.agentzengyu.applicationforhttputil;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.zy.CallBack;
 import com.example.zy.HttpUtil;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,21 +19,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void Test() {
-        HttpUtil httpUtil = new HttpUtil();
-        httpUtil.setUrl("url")
+        new HttpUtil().setUrl("url")
+                .addParams("key1", "value1")
+                .addParams("key2", "value2")
                 .setConnectTimeOut(5000)
+                .setReadTimeOut(5000)
                 .execute(new CallBack() {
                     @Override
-                    public void onSuccess(String string) {
-                        Log.e("onSuccess", string);
+                    public void onSuccess(String s) {
+
                     }
 
                     @Override
-                    public void onFailure(String string, Exception e) {
-                        Log.e("String", string);
-                        if (e!=null){
-                            e.printStackTrace();
-                        }
+                    public void onFailure(String s, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onBefore(String url, JSONObject params) {
+                        super.onBefore(url, params);
                     }
                 });
     }

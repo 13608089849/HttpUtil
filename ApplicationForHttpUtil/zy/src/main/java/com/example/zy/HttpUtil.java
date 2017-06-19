@@ -75,7 +75,7 @@ public class HttpUtil {
     public void execute(final CallBack callBack) {
         try {
             if (urlString.equals("")) {
-                callBack.onFailure("Url is empty!",null);
+                callBack.onFailure("Url is empty!", null);
                 return;
             }
             URL url = new URL(urlString);
@@ -92,7 +92,6 @@ public class HttpUtil {
             httpUrlConnection.setUseCaches(false);
             httpUrlConnection.setRequestProperty("accept", "*/*");
             httpUrlConnection.setRequestProperty("connection", "Keep-Alive");
-            //设定传送的内容类型是可序列化的java对象
             httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
             httpUrlConnection.setRequestProperty("Accept-Charset", "UTF-8");
             httpExecute.getResponse(callBack, httpUrlConnection, requestParamsMap);
