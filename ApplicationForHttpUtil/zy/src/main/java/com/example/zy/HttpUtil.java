@@ -70,12 +70,12 @@ public class HttpUtil {
     /**
      * 请求执行入口
      *
-     * @param callBack 回调
+     * @param callback 回调
      */
-    public void execute(final CallBack callBack) {
+    public void execute(HttpCallback callback) {
         try {
             if (urlString.equals("")) {
-                callBack.onFailure("Url is empty!", null);
+                callback.onFailure("Url is empty!", null);
                 return;
             }
             URL url = new URL(urlString);
@@ -94,9 +94,9 @@ public class HttpUtil {
             httpUrlConnection.setRequestProperty("connection", "Keep-Alive");
             httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
             httpUrlConnection.setRequestProperty("Accept-Charset", "UTF-8");
-            httpExecute.getResponse(callBack, httpUrlConnection, requestParamsMap);
+            httpExecute.getResponse(callback, httpUrlConnection, requestParamsMap);
         } catch (IOException e) {
-            callBack.onFailure("IOException in execute", e);
+            callback.onFailure("IOException in execute", e);
         }
     }
 }

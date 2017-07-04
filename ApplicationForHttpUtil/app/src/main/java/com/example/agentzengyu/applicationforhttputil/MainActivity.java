@@ -3,7 +3,7 @@ package com.example.agentzengyu.applicationforhttputil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.zy.CallBack;
+import com.example.zy.HttpCallback;
 import com.example.zy.HttpUtil;
 
 import org.json.JSONObject;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 .addParams("key2", "value2")
                 .setConnectTimeOut(5000)
                 .setReadTimeOut(5000)
-                .execute(new CallBack() {
+                .execute(new HttpCallback() {
                     @Override
                     public void onSuccess(String s) {
 

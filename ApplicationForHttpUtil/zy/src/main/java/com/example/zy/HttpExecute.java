@@ -29,11 +29,11 @@ public class HttpExecute {
     /**
      * 获取HTTP响应
      *
-     * @param callBack          回调
+     * @param callback          回调
      * @param httpUrlConnection HTTP连接
      * @param requestParamsMap  请求参数MAP
      */
-    public void getResponse(final CallBack callBack, final HttpURLConnection httpUrlConnection, final Map<String, Object> requestParamsMap) {
+    public void getResponse(final HttpCallback callback, final HttpURLConnection httpUrlConnection, final Map<String, Object> requestParamsMap) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -51,7 +51,7 @@ public class HttpExecute {
                     if (params.length() > 0) {
                         params.deleteCharAt(params.length() - 1);
                     }
-                    callBack.onBefore(httpUrlConnection.getURL().toString(),jsonObject);
+                    callback.onBefore(httpUrlConnection.getURL().toString(), jsonObject);
                     httpUrlConnection.connect();
                     OutputStream outputStream = httpUrlConnection.getOutputStream();
                     printWriter = new PrintWriter(outputStream);
@@ -60,7 +60,7 @@ public class HttpExecute {
                     printWriter.flush();
                     int responseCode = httpUrlConnection.getResponseCode();
                     if (responseCode != 200) {
-                        callBack.onFailure("ResponseCode:" + responseCode, null);
+                        callback.onFailure("ResponseCode:" + responseCode, null);
                     } else {
                         bufferedReader = new BufferedReader(new InputStreamReader(
                                 httpUrlConnection.getInputStream(), "utf-8"));
@@ -68,12 +68,12 @@ public class HttpExecute {
                         while ((temp = bufferedReader.readLine()) != null) {
                             responseResult.append(temp).append("\r\n");
                         }
-                        callBack.onSuccess(responseResult.toString().trim());
+                        callback.onSuccess(responseResult.toString().trim());
                     }
                 } catch (IOException e) {
-                    callBack.onFailure("", e);
+                    callback.onFailure("", e);
                 } catch (JSONException e) {
-                    callBack.onFailure("", e);
+                    callback.onFailure("", e);
                 } finally {
                     httpUrlConnection.disconnect();
                 }
@@ -85,7 +85,7 @@ public class HttpExecute {
                         bufferedReader.close();
                     }
                 } catch (IOException ex) {
-                    callBack.onFailure("", ex);
+                    callback.onFailure("", ex);
                 }
             }
         }).start();

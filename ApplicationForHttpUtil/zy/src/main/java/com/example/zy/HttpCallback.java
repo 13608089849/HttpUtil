@@ -9,7 +9,7 @@ import org.json.JSONObject;
 /**
  * 回调
  */
-public abstract class CallBack{
+public abstract class HttpCallback {
     /**
      * 成功时返回
      *
