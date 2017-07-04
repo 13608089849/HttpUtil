@@ -15,7 +15,7 @@ Copying this jar file to your lib directory of project, and adding dependency.
 			.setReadTimeOut(5000)
 			.addParams("key1","value1")
 			.addParams("key2","value2")
-			.execute(new CallBack(){
+			.execute(new HttpCallback(){
 				@Override
 				public void onSuccess(String string) {
 					Log.e("onSuccess", string);
