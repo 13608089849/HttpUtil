@@ -27,7 +27,7 @@ Copying this jar file to your lib directory of project, and adding dependency.
 				}
 
 				@Override
-				public void onBefore(String string, JSONObject jsonObject){
+				public void onBefore(String url, JSONObject params){
 					super.onBefore(url, params);
 				｝
 			});
