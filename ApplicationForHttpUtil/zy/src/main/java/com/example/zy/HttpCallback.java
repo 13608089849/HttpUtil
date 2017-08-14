@@ -20,10 +20,9 @@ public abstract class HttpCallback {
     /**
      * 失败时返回
      *
-     * @param message 错误信息，需判空
-     * @param e       异常，需判空
+     * @param e 异常
      */
-    public abstract void onFailure(String message, Exception e);
+    public abstract void onFailure(Exception e);
 
     /**
      * 请求的信息
@@ -32,6 +31,7 @@ public abstract class HttpCallback {
      * @param params 附加参数
      */
     public void onBefore(String url, JSONObject params) {
-
+        System.out.println("Request url:\t" + url);
+        System.out.println("Request params:\t" + params.toString());
     }
 }

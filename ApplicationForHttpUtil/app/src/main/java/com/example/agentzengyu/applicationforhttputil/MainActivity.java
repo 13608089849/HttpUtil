@@ -2,6 +2,7 @@ package com.example.agentzengyu.applicationforhttputil;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.example.zy.HttpCallback;
 import com.example.zy.HttpUtil;
@@ -14,25 +15,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Test();
     }
 
     private void Test() {
-        new HttpUtil().setUrl("url")
-                .addParams("key1", "value1")
-                .addParams("key2", "value2")
+        HttpUtil.setUrl("https://github.com/13608089849/HttpUtil/raw/master/HttpUtil_V1.8.jar")
                 .setConnectTimeOut(5000)
                 .setReadTimeOut(5000)
                 .execute(new HttpCallback() {
                     @Override
                     public void onSuccess(String s) {
-
+                        Log.e("onSuccess",s);
                     }
 
                     @Override
-                    public void onFailure(String s, Exception e) {
-
+                    public void onFailure(Exception e) {
+                        e.printStackTrace();
                     }
 
                     @Override
