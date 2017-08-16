@@ -6,6 +6,8 @@ An util to create http connection by POST
 
 Copying this jar file to your lib directory of project, and adding dependency.
 
+[Download jar](https://github.com/13608089849/HttpUtil/raw/master/HttpUtil_V2.0.jar)
+
 ----
 
 ## Example
