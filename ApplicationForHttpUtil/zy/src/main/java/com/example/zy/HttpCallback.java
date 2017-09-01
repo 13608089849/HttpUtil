@@ -13,7 +13,7 @@ public abstract class HttpCallback {
     /**
      * 成功时返回
      *
-     * @param response 服务器返回字符串，需判空
+     * @param response 服务器返回字符串
      */
     public abstract void onSuccess(String response);
 

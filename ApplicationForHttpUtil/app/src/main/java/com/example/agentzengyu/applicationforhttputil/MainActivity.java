@@ -19,13 +19,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void Test() {
-        HttpUtil.setUrl("https://github.com/13608089849/HttpUtil/raw/master/HttpUtil_V1.8.jar")
+        new HttpUtil().setUrl("https://github.com/13608089849/HttpUtil/raw/master/HttpUtil_V1.8.jar")
                 .setConnectTimeOut(5000)
                 .setReadTimeOut(5000)
                 .execute(new HttpCallback() {
                     @Override
                     public void onSuccess(String s) {
-                        Log.e("onSuccess",s);
+                        Log.e("onSuccess", s);
                     }
 
                     @Override

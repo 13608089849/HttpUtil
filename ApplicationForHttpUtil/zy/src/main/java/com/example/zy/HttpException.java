@@ -17,6 +17,15 @@ public class HttpException{
     }
 
     /**
+     * 请求方法异常
+     */
+    static class RequestMethodException extends RuntimeException{
+        public RequestMethodException(String s){
+            super(s);
+        }
+    }
+
+    /**
      * 空回调异常
      */
     static class NullCallBackException extends RuntimeException {
