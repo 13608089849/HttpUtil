@@ -6,13 +6,13 @@ An util to create http connection by POST
 
 Copying this jar file to your lib directory of project, and adding dependency.
 
-[Download jar](https://github.com/13608089849/HttpUtil/raw/master/HttpUtil_V2.0.jar)
+[Download jar](https://github.com/13608089849/HttpUtil/raw/master/HttpUtil_V2.1.jar)
 
 ----
 
 ## Example
 
-	HttpUtil().setUrl("https://github.com/13608089849/")
+	new HttpUtil().setUrl("https://github.com/13608089849/")
 			.setConnectTimeOut(5000)
 			.setReadTimeOut(5000)
 			.addParams("key1","value1")
