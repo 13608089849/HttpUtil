@@ -2,7 +2,7 @@
 
 ## Introduce
 
-An util to create http connection by POST
+An util to create http connection by *POST* or *GET*
 
 Copying this jar file to your lib directory of project, and adding dependency.
 
